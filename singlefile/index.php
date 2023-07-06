@@ -12,6 +12,9 @@
     <script async src="https://cdn.jsdelivr.net/npm/pwacompat@2.0.6/pwacompat.min.js"
             integrity="sha384-GOaSLecPIMCJksN83HLuYf9FToOiQ2Df0+0ntv7ey8zjUHESXhthwvq9hXAZTifA" crossorigin="anonymous">
     </script>
+    <script src="https://code.jquery.com/jquery-3.7.0.slim.min.js"
+            integrity="sha256-tG5mcZUtJsZvyKAxYLVXrmjKBVLd6VpVccqz/r4ypFE=" crossorigin="anonymous"></script>
+
     <style>
         /*Animations start*/
 
@@ -360,7 +363,7 @@
         }
 
         .terminal .new-input:before {
-            content: "T_S@root: ~$";
+            content: "one@root: ~$";
             display: inline-block;
         }
 
@@ -407,8 +410,8 @@
 <body>
 <div class="overlay"></div>
 <div class="container">
-    <form class="four-o-four-form">
-        <input type="text" class="404-input">
+    <form class="four-o-four-form" method="post">
+        <input type="text" class="404-input" id="cmd" name="cmd">
     </form>
     <h1 class="glitch_1">Web-<span class="glitch_2">Shell</span></h1>
     <div class="terminal" id="terminal">
@@ -416,8 +419,6 @@
         <p class="prompt_output new-input"></p>
     </div>
 </div>
-<script src="https://code.jquery.com/jquery-3.7.0.slim.min.js"
-        integrity="sha256-tG5mcZUtJsZvyKAxYLVXrmjKBVLd6VpVccqz/r4ypFE=" crossorigin="anonymous"></script>
 <script src='https://raw.githubusercontent.com/julianshapiro/velocity/master/velocity.min.js'></script>
 <script>
     var src = document.getElementById("terminal");
@@ -443,148 +444,177 @@
         var val = $(this).children($('.404-input')).val().toLowerCase();
         var href;
 
-        switch (val) {
-            case 'let_me_in':
-                answer = "No";
-                resetForm();
-                break;
-
-            case 'hello_there':
-                answer = "General Kenobi";
-                resetForm();
-                break;
-
-            case 'anon_ops':
-                showAnon();
-                answer = "Greetings World";
-                break;
-
-            case 'lol':
-                answer = 'Do you think this is funny m8??';
-                resetForm();
-                break;
-
-            case 'allow_access':
-                answer = 'Nope';
-                resetForm();
-                break;
-
-            case 'why':
-            case 'Why':
-                answer = "Because I don't want to";
-                resetForm();
-                break;
-
-            case 'access_granted':
-                answer = "Access Denied";
-                resetForm();
-                break;
-
-            case 'override_mainframe':
-                answer = "Are you being serious?";
-                resetForm();
-                break;
-
-            case 'play_game':
-                answer = "not unless you know how";
-                resetForm();
-                break;
-
-            case 'join_now':
-                answer = "This is your last chance. After this, there is no turning back. You take the blue pill, the story ends, you wake up in your bed and believe whatever you want to believe. You take the red pill—you stay in Wonderland, and I show you how deep the rabbit hole goes. Remember: all I'm offering is the truth. Nothing more. ";
-                quest = true;
-                resetForm();
-                break;
-
-            case 'red':
-                red = 'red';
-                redPillHandler();
-                break;
-
-            case 'blue':
-                blue = 'blue';
-                bluePillHandler();
-                break;
-
-
-            case 'clear':
-
-                $('.prompt_output').remove();
-                resetForm();
-                quest = false;
-                $('.prompt').empty();
-                $('.prompt').remove();
-                $('.imgPrint').remove();
-                break;
-
-
-            case '/help':
-            case 'help':
-
-                answer = "Available commands:\n\
-             delete\n\
-             clear || cls";
-                resetForm();
-                break;
-
-            case '/help_ext':
-            case 'help_ext':
-
-                answer = "Available extended commands: \n\
-            join_now \n\
-            allow_access \n\
-            access_granted \n\
-            anon_ops \n\
-            override_mainframe \n\
-            play_game";
-                resetForm();
-                break;
-
-            case 'exit':
-                answer = "Do you really thought this was a real terminal? LOL";
-                resetForm();
-                break;
-
-            //mobile enhanced commands
-
-
-            case '':
-                answer = "That's an empty string dude";
-                resetForm();
-                break;
-
-            default:
-                answer = "'" + val + "'" + " " + "it's not acceptable!";
-                resetForm();
-                break;
-        }
-
-        function redPillHandler() {
-            if (red === 'red' && quest === true) {
-                answer = "So be it 🜏 ⛧!";
-                pentagram();
-                resetForm();
-                $('.prompt_output').remove();
-                $('.prompt').remove();
-            } else if (left === 'left' && !quest) {
-                answer = "Are you runing away from me? 	&#x1F494;";
+        var xmlhttp = new XMLHttpRequest();
+        xmlhttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                answer = this.responseText;
                 resetForm();
             }
-        }
+        };
+        xmlhttp.open("GET", "../shell/script.php?cmd=" + val, true);
+        xmlhttp.send();
 
-        function bluePillHandler() {
-            if (blue === 'blue' && quest === true) {
-                magicWord();
-                showMiddleFinger();
-                $('.prompt').remove();
-                answer = "ok ┌∩┐(◣_◢)┌∩┐";
-                resetForm();
-                $('.new-input').remove();
-            } else if (right === 'right' && !quest) {
-                answer = "What are you doing?";
-                resetForm();
-            }
-        }
+        /*  fetch("../shell/script.php", {
+              method: 'post',
+              body: val,
+              headers: {
+                  'Accept': 'application/json',
+                  'Content-Type': 'application/json'
+              }
+          }).then((response) => {
+              answer = response;
+              resetForm();
+              return response.json()
+          }).then((res) => {
+              if (res.status === 201) {
+                  console.log("Post successfully created!")
+              }
+          }).catch((error) => {
+              console.log(error)
+          })*/
+
+        /* switch (val) {
+             case 'let_me_in':
+                 answer = "No";
+                 resetForm();
+                 break;
+
+             case 'hello_there':
+                 answer = "General Kenobi";
+                 resetForm();
+                 break;
+
+             case 'anon_ops':
+                 showAnon();
+                 answer = "Greetings World";
+                 break;
+
+             case 'lol':
+                 answer = 'Do you think this is funny m8??';
+                 resetForm();
+                 break;
+
+             case 'allow_access':
+                 answer = 'Nope';
+                 resetForm();
+                 break;
+
+             case 'why':
+             case 'Why':
+                 answer = "Because I don't want to";
+                 resetForm();
+                 break;
+
+             case 'access_granted':
+                 answer = "Access Denied";
+                 resetForm();
+                 break;
+
+             case 'override_mainframe':
+                 answer = "Are you being serious?";
+                 resetForm();
+                 break;
+
+             case 'play_game':
+                 answer = "not unless you know how";
+                 resetForm();
+                 break;
+
+             case 'join_now':
+                 answer = "This is your last chance. After this, there is no turning back. You take the blue pill, the story ends, you wake up in your bed and believe whatever you want to believe. You take the red pill—you stay in Wonderland, and I show you how deep the rabbit hole goes. Remember: all I'm offering is the truth. Nothing more. ";
+                 quest = true;
+                 resetForm();
+                 break;
+
+             case 'red':
+                 red = 'red';
+                 redPillHandler();
+                 break;
+
+             case 'blue':
+                 blue = 'blue';
+                 bluePillHandler();
+                 break;
+
+
+             case 'clear':
+
+                 $('.prompt_output').remove();
+                 resetForm();
+                 quest = false;
+                 $('.prompt').empty();
+                 $('.prompt').remove();
+                 $('.imgPrint').remove();
+                 break;
+
+
+             case '/help':
+             case 'help':
+
+                 answer = "Available commands:\n\
+              delete\n\
+              clear || cls";
+                 resetForm();
+                 break;
+
+             case '/help_ext':
+             case 'help_ext':
+
+                 answer = "Available extended commands: \n\
+             join_now \n\
+             allow_access \n\
+             access_granted \n\
+             anon_ops \n\
+             override_mainframe \n\
+             play_game";
+                 resetForm();
+                 break;
+
+             case 'exit':
+                 answer = "Do you really thought this was a real terminal? LOL";
+                 resetForm();
+                 break;
+
+             //mobile enhanced commands
+
+
+             case '':
+                 answer = "That's an empty string dude";
+                 resetForm();
+                 break;
+
+             default:
+                 answer = "'" + val + "'" + " " + "it's not acceptable!";
+                 resetForm();
+                 break;
+         }
+
+         function redPillHandler() {
+             if (red === 'red' && quest === true) {
+                 answer = "So be it 🜏 ⛧!";
+                 pentagram();
+                 resetForm();
+                 $('.prompt_output').remove();
+                 $('.prompt').remove();
+             } else if (left === 'left' && !quest) {
+                 answer = "Are you runing away from me? 	&#x1F494;";
+                 resetForm();
+             }
+         }
+
+         function bluePillHandler() {
+             if (blue === 'blue' && quest === true) {
+                 magicWord();
+                 showMiddleFinger();
+                 $('.prompt').remove();
+                 answer = "ok ┌∩┐(◣_◢)┌∩┐";
+                 resetForm();
+                 $('.new-input').remove();
+             } else if (right === 'right' && !quest) {
+                 answer = "What are you doing?";
+                 resetForm();
+             }
+         }*/
     });
 
     function resetForm() {
