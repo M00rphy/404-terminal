@@ -258,7 +258,7 @@
             margin: 0 auto;
             -webkit-animation: glitch-anim 2.5s infinite linear alternate-reverse;
             animation: glitch-anim 2.5s infinite linear alternate-reverse;
-            content: "The ";
+            content: "Web-";
             left: 2px;
             overflow: hidden;
             position: absolute;
@@ -269,7 +269,7 @@
             margin: 0 auto;
             -webkit-animation: glitch-anim 3.5s infinite linear alternate-reverse;
             animation: glitch-anim 3.5s infinite linear alternate-reverse;
-            content: "The ";
+            content: "Web-";
             left: -1px;
             overflow: hidden;
             position: absolute;
@@ -292,7 +292,7 @@
             margin: 0 auto;
             -webkit-animation: glitch-anim 3s infinite linear alternate-reverse;
             animation: glitch-anim 3s infinite linear alternate-reverse;
-            content: "Source";
+            content: "Shell";
             left: -1px;
             overflow: hidden;
             position: absolute;
@@ -303,7 +303,7 @@
             margin: 0 auto;
             -webkit-animation: glitch-anim 2s infinite linear alternate-reverse;
             animation: glitch-anim 2s infinite linear alternate-reverse;
-            content: "Source";
+            content: "Shell";
             left: 2px;
             overflow: hidden;
             position: absolute;
@@ -410,7 +410,7 @@
     <form class="four-o-four-form">
         <input type="text" class="404-input">
     </form>
-    <h1 class="glitch_1">The <span class="glitch_2">Source</span></h1>
+    <h1 class="glitch_1">Web-<span class="glitch_2">Shell</span></h1>
     <div class="terminal" id="terminal">
         <p class="prompt">What is real?</p>
         <p class="prompt_output new-input"></p>
